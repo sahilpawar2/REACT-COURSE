@@ -1,13 +1,19 @@
 import { useState } from 'react'
+import UseRecipeInfo from "./hooks/UseRecipeInfo.js";
+import Card from './Component/Card.jsx';
 
-
-
-function App() {
-  const [count, setCount] = useState(0)
+function App() { 
+   const useinfo = UseRecipeInfo()
+   
 
   return (
     <>
-      <div className= 'bg-green-400 justify-center-auto p-4 w-[300px] h-[200px] text-center text-[20px] '><h1 >COUNTER</h1></div>
+     <div className="flex space-x-4 items-center ">
+       <Card/>
+       <Card/>
+       <Card/>
+     </div>
+     
     </>
   )
 }
