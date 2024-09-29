@@ -2,20 +2,28 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 
 
-function UseRecipeInfo(recipe) {
-    const [data, setData] = useState({})
-    useEffect(() =>{ 
-        fetch('https://api.edamam.com/api/recipes/v2?type=public&app_id=d1a3ac8a&app_key=b0fed65ad32dccb9a30c63a355fbc8e7&q=chicken')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+function UseRecipeInfo(url) {
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch(url);
+                const result = await response.json();
+                setData(result);
+            } catch (err) {
+                setError('Error fetching data');
+            } finally {
+                setLoading(false);
             }
-            return response.json();
-         })
-        .then(data => console.log(data))
-        .catch(error => console.error('There was a problem with the fetch operation:', error));
-    },[recipe])
-    
+        };
+
+        fetchData();
+    }, [url]);
+
+    return { data, loading, error }; // The `data` object has an array `items`.
 }
 
 export default UseRecipeInfo
